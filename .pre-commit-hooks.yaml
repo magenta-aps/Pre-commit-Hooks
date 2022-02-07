@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: Magenta ApS
+#
+# SPDX-License-Identifier: MPL-2.0
+---
+- id: auto-ticket-prepare-commit
+  name: Auto ticket prepare commit
+  description: Automatically adds ticket number to commit message before editing
+  entry: prepare-commit-msg.sh
+  language: script
+  stages: [prepare-commit-msg]
+  always_run: true
+- id: auto-ticket-commit
+  name: Auto ticket commit
+  description: Automatically adds ticket number to commit message after editing
+  entry: commit-msg.sh
+  language: script
+  stages: [commit-msg]
+  always_run: true
