@@ -16,3 +16,15 @@
   language: script
   stages: [commit-msg]
   always_run: true
+- id: yaml-parsable
+  name: yaml-parsable
+  description: Check YAML files are parsable
+  entry: yaml-parsable.sh
+  language: script
+  types: [file, yaml]
+- id: flux-lint
+  name: flux-lint
+  description: Check flux resource validate according to Flux OpenAPI schemas
+  entry: flux-lint.sh
+  language: script
+  types: [file, yaml]
