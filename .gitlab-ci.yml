@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: Magenta ApS
+#
+# SPDX-License-Identifier: MPL-2.0
+---
+stages:
+  - lint
+
+# Only run pipeline when pushing a tag or a branch.
+# This is a workaround for a bug causing detached pipelines on MRs
+# See: https://gitlab.com/gitlab-org/gitlab/-/issues/34756
+#      https://docs.gitlab.com/ee/ci/yaml/#workflowrules-templates
+workflow:
+  rules:
+    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH
+
+
+.lint-default: &lint-default
+  stage: lint
+  interruptible: true
+  needs: []
+  image: python:3.8
+  services: []
+  tags:
+    - docker
+
+Pre-commit:
+  <<: *lint-default
+  before_script:
+    # Install pre-commit
+    - pip install pre-commit
+    # Install shellcheck
+    - apt-get update
+    - apt-get install -y shellcheck
+  script:
+    - pre-commit run --all-files --hook-stage manual
