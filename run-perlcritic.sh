@@ -46,9 +46,11 @@ for changed_perl_file in "$@"; do
     my_output=$("${cmd}" "${opts[@]}" "$changed_perl_file")
     filtered_output=
     echo "$my_output"
+    echo
     if [[ -n "${my_output}" ]]; then
         filtered_output=$(echo "$my_output" | perl filter_errors.pl "$diff_ranges")
 	echo "$filtered_output"
+	echo
     fi
 
     if [[ -n "${filtered_output}" ]]; then
