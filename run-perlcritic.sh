@@ -16,7 +16,7 @@ if ! command -v "${cmd}" >/dev/null 2>&1; then
 fi
 
 cfg=.perlcriticrc
-opts=("--quiet" "--color" "-verbose='%l: %m\n'")
+opts=("--quiet" "--color" "-verbose=%l: %m\n")
 if [[ ! -r "${cfg}" ]]; then
     echo "No ${cfg} found"
     exit 1
@@ -40,19 +40,13 @@ CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 failed="false"
 for changed_perl_file in "$@"; do
-    diff_ranges=$(git diff --staged --unified=0 "$changed_perl_file" | grep -Po '^\+\+\+ ./\K.*|^@@ -[0-9]+(,[0-9]+)? \+\K[0-9]+(,[0-9]+)?(?= @@)' | perl "$SCRIPT_DIR/parse_ranges.pl")
-    echo "$diff_ranges"
-    # filters staged diff to only include changed lines, https://stackoverflow.com/questions/25497881/git-diff-is-it-possible-to-show-only-changed-lines
-    # perl -wlne: -w=`warnings`, -l="newline at each line", -n="tells perl to implicitly include a loop as the second option", -e=`execute`
+    diff_ranges=$(git diff --staged --unified=0 "$changed_perl_file" |\
+	    grep -Po '^\+\+\+ ./\K.*|^@@ -[0-9]+(,[0-9]+)? \+\K[0-9]+(,[0-9]+)?(?= @@)' |\
+	    perl "$SCRIPT_DIR/parse_ranges.pl")
     my_output=$("${cmd}" "${opts[@]}" "$changed_perl_file")
     filtered_output=
-    echo "Output:"
-    echo "$my_output"
-    echo
     if [[ -n "${my_output}" ]]; then
         filtered_output=$(echo "$my_output" | perl "$SCRIPT_DIR/filter_errors.pl" "$diff_ranges")
-	echo "$filtered_output"
-	echo
     fi
 
     if [[ -n "${filtered_output}" ]]; then
@@ -65,7 +59,6 @@ for changed_perl_file in "$@"; do
     fi
 done
 
-exit 1
 if [[ "${failed}" == "true" ]]; then
     exit 1
 fi

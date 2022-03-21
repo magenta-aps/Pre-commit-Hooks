@@ -7,15 +7,12 @@ use strict;
 use warnings;
 use utf8;
 
-use Data::Dumper qw(Dumper);
-my %wanted_lines = map { $_ => 1 } @ARGV;
+my %wanted_lines = map { $_ => 1 } split ' ', $ARGV[0];
 
-print Dumper(\%wanted_lines);
 while (my $line = <STDIN>) {
     chomp($line);
-    print STDERR "Line: $line\n";
-    my $line_no = $line =~ m!(\d+):!;
-    print STDERR "Looking for $line_no\n";
+    my ($line_no) = $line =~ m!(\d+):!;
+    next unless $line_no;
     next unless $wanted_lines{$line_no};
     print "$line\n";
 }
