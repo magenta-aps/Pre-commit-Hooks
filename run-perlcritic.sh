@@ -46,6 +46,7 @@ for changed_perl_file in "$@"; do
     # perl -wlne: -w=`warnings`, -l="newline at each line", -n="tells perl to implicitly include a loop as the second option", -e=`execute`
     my_output=$("${cmd}" "${opts[@]}" "$changed_perl_file")
     filtered_output=
+    echo "Output:"
     echo "$my_output"
     echo
     if [[ -n "${my_output}" ]]; then
