@@ -28,3 +28,9 @@
   entry: flux-lint.sh
   language: script
   types: [file, yaml]
+- id: perlcritic
+  name: 'perlcritic'
+  description: "Runs `perlcritic` on diff only"
+  entry: run-perlcritic.sh
+  files: '\.(pl|pm|t|PL)$'
+  language: 'script'
