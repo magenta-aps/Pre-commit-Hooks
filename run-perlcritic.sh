@@ -22,18 +22,6 @@ if [[ ! -r "${cfg}" ]]; then
     exit 1
 fi
 
-# additional exclusions for quirks related to using a diff and not entire files
-declare -a exclusions=(
-"Perl::Critic::Policy::Modules::RequireExplicitPackage" # as we do not have the entire file, evaluating this rule makes no sense
-"Perl::Critic::Policy::TestingAndDebugging::RequireUseStrict" # as we do not have the entire file, evaluating this rule makes no sense
-"Perl::Critic::Policy::TestingAndDebugging::RequireUseWarnings" # as we do not have the entire file, evaluating this rule makes no sense
-"Perl::Critic::Policy::Modules::RequireEndWithOne" # as we do not have the entire file, evaluating this rule makes no sense
-)
-for exclusion in "${exclusions[@]}"
-do
-    opts+=("--exclude=$exclusion")
-done
-
 RED='\033[0;31m'
 ORANGE='\033[0;33m'
 CYAN='\033[0;36m'
