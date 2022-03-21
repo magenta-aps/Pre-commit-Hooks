@@ -11,6 +11,7 @@ my %wanted_lines = map { $_ => 1 } @ARGV;
 
 while (my $line = <STDIN>) {
     chomp($line);
+    print STDERR "Line: $line\n";
     my $line_no = $line =~ m!(\d+):!;
     next unless $wanted_lines{$line_no};
     print "$line\n";
