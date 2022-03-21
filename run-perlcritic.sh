@@ -40,12 +40,15 @@ NC='\033[0m' # No Color
 failed="false"
 for changed_perl_file in "$@"; do
     diff_ranges=$(git diff --staged --unified=0 "$changed_perl_file" | grep -Po '^\+\+\+ ./\K.*|^@@ -[0-9]+(,[0-9]+)? \+\K[0-9]+(,[0-9]+)?(?= @@)' | perl parse_ranges.pl)
+    echo "$diff_ranges"
     # filters staged diff to only include changed lines, https://stackoverflow.com/questions/25497881/git-diff-is-it-possible-to-show-only-changed-lines
     # perl -wlne: -w=`warnings`, -l="newline at each line", -n="tells perl to implicitly include a loop as the second option", -e=`execute`
     my_output=$("${cmd}" "${opts[@]}" "$changed_perl_file")
     filtered_output=
+    echo "$my_output"
     if [[ -n "${my_output}" ]]; then
         filtered_output=$(echo "$my_output" | perl filter_errors.pl "$diff_ranges")
+	echo "$filtered_output"
     fi
 
     if [[ -n "${filtered_output}" ]]; then
