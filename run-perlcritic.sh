@@ -63,6 +63,7 @@ for changed_perl_file in "$@"; do
     fi
 done
 
+exit 1
 if [[ "${failed}" == "true" ]]; then
     exit 1
 fi
