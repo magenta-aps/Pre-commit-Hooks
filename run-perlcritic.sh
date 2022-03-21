@@ -5,8 +5,7 @@
 
 # Run perlcritic on perl scripts.
 # By default perlcritic looks for .perlcriticrc in the current directory
-# (repository root) and in the home directory. If no configuration file is
-# found then it exits.
+# If no configuration file is found, then it exits.
 set -u
 
 cmd=perlcritic
