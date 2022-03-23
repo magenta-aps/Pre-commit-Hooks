@@ -5,17 +5,17 @@
 ---
 repos:
   - repo: https://github.com/fsfe/reuse-tool
-    rev: v0.12.1
+    rev: v0.14.0
     hooks:
       - id: reuse
 
   - repo: https://github.com/gruntwork-io/pre-commit
-    rev: v0.1.12
+    rev: v0.1.17
     hooks:
       - id: shellcheck
 
   - repo: https://github.com/pre-commit/pre-commit-hooks.git
-    rev: v4.0.1
+    rev: v4.1.0
     hooks:
       - id: end-of-file-fixer
       - id: trailing-whitespace
@@ -25,6 +25,6 @@ repos:
       - id: check-merge-conflict
 
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.17.0
+    rev: v1.26.3
     hooks:
       - id: yamllint
