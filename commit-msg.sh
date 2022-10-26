@@ -49,9 +49,9 @@ function ekko() {
 }
 
 # Set PATTERN to look for [#12345] and optionally fixup! and squash!
-PATTERN="^\[#\d{5}\]"
+PATTERN="\[#\d{5}\]"
 if [ $IGNORE_FIXUPS = true ]; then
-    PATTERN="^(\[#\d{5}\]|fixup\!|squash\!)"
+    PATTERN="(\[#\d{5}\]|fixup\!|squash\!)"
 fi
 
 # Check for pattern in first line of commit msg (use cat instead of head to check entire msg)
@@ -81,7 +81,7 @@ if ! head -n 1 "$1" | grep -q -P "$PATTERN"; then
         fi
     fi
 
-    NEW_COMMIT_MSG=$(sed "1s;^;[#$TICKET] ;" "$1")
+    NEW_COMMIT_MSG=$(sed -r "1s;^(\w+:\s)?;\1[#$TICKET] ;" "$1")
     ekko "Found ticket no. in branch name. Here is your new commit message header:"
     ekko "$NEW_COMMIT_MSG"
 
@@ -94,5 +94,5 @@ if ! head -n 1 "$1" | grep -q -P "$PATTERN"; then
             exit 1
         fi
     fi
-    sed -i "1s;^;[#$TICKET] ;" "$1"
+    sed -r -i "1s;^(\w+:\s)?;\1[#$TICKET] ;" "$1"
 fi
