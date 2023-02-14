@@ -21,8 +21,6 @@ workflow:
   needs: []
   image: python:3.8
   services: []
-  tags:
-    - docker
 
 Pre-commit:
   <<: *lint-default
