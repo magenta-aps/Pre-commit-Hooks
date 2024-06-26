@@ -75,7 +75,7 @@ KUSTOMIZE_CONFIG="kustomization.yaml"
 for FILE in "$@"; do
     if [[ "${FILE}" =~ ^.*${KUSTOMIZE_CONFIG} ]]; then
         BUILD_FOLDER=$(mktemp -d)
-        kustomize build "${FILE%${KUSTOMIZE_CONFIG}}" "${KUSTOMIZE_FLAGS[@]}" -o "${BUILD_FOLDER}"
+        kustomize build "${FILE%"${KUSTOMIZE_CONFIG}"}" "${KUSTOMIZE_FLAGS[@]}" -o "${BUILD_FOLDER}"
         for BUILD_FILE in "${BUILD_FOLDER}"/*.yaml; do
             # Ignore encrypted files
             yq e "del(.sops)" "${BUILD_FILE}" > "${BUILD_FILE}.yq.yaml"
